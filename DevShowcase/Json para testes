@@ -1,0 +1,108 @@
+
+1. Módulo de Tecnologias (Technology)
+
+1.1. Cadastrar Tecnologia (Sucesso)
+Método: POST
+Rota: /api/technologies
+Body (JSON):
+
+{
+"name": "Spring Boot"
+}
+
+Resultado esperado: Código 200 OK (ou 201 Created) com a tecnologia criada e o respetivo ID. (Cadastra pelo menos duas, por exemplo, "Spring Boot" e "Java").
+
+1.2. Listar todas as Tecnologias
+Método: GET
+Rota: /api/technologies
+Resultado esperado: Código 200 OK retornando a lista completa de tecnologias cadastradas.
+
+2. Módulo de Perfis (Profile)
+
+2.1. Cadastrar Perfil com Validação de Erro (@Valid)
+Método: POST
+Rota: /api/profiles
+Body (JSON inválido):
+
+{
+"name": "",
+"bio": "",
+"githubUrl": "url-invalida"
+}
+
+Resultado esperado: Código 400 Bad Request (demonstrando que as validações de campos obrigatórios e formato de URL estão ativas).
+
+2.2. Cadastrar Perfil com Sucesso (Caminho Feliz)
+Método: POST
+Rota: /api/profiles
+Body (JSON):
+
+{
+  "name": "Daniely de Oliveira Mélo",
+  "bio": "Desenvolvedora Backend",
+  "githubUrl": "https://github.com/daniely"
+}
+
+Resultado esperado: Código 200 OK com o perfil criado e id: 1.
+
+2.3. Buscar Perfil por ID
+Método: GET
+Rota: /api/profiles/1
+Resultado esperado: Código 200 OK retornando os dados detalhados do perfil correspondente.
+
+3. Módulo de Projetos (Project)
+
+3.1. Cadastrar Projeto com Associação de Perfil e Tecnologias
+Método: POST
+Rota: /api/projects
+Body (JSON):
+
+{
+  "title": "DevShowcase API",
+  "description": "API RESTful desenvolvida com Spring Boot 3",
+  "projectUrl": "https://github.com/exemplo/devshowcase",
+  "profileId": 1,
+  "technologyIds": [1, 2]
+}
+
+Resultado esperado: Código 200 OK exibindo o projeto criado, o perfil associado e a lista de tecnologias vinculadas.
+
+3.2. Listar Projetos
+Método: GET
+Rota: /api/projects
+Resultado esperado: Código 200 OK retornando a listagem de todos os projetos registados.
+
+4. Módulo de Feedbacks (Feedback)
+
+4.1. Registar Feedback num Projeto
+Método: POST
+Rota: /api/feedbacks/project/1
+Body (JSON):
+
+{
+"comment": "Excelente arquitetura de camadas e organização do código!",
+"rating": 5
+}
+
+Resultado esperado: Código 200 OK confirmando a criação do feedback vinculado ao projeto 1.
+
+4.2. Listar Feedbacks
+Método: GET
+Rota: /api/feedbacks
+Resultado esperado: Código 200 OK com a lista de opiniões registadas.
+
+Estrutura sugerida para o ficheiro PDF de entrega:
+Para submeter a tarefa com sucesso, cria um documento PDF contendo os elementos do grupo e os links finais:
+
+Trabalho Prático: DevShowcase API - Etapa 1
+Componentes do Grupo:
+
+* ANTONIO NIVALDO LEANDRO OLIVEIRA
+* DANIELY DE OLIVEIRA MÉLO
+* JOSE LEANDRO OLIVEIRA
+* LUCAS SILVEIRA DIAS
+
+Links de Acesso:
+
+* Repositório GitHub: [Inserir link público do repositório]
+* Vídeo de Demonstração (YouTube - Não listado): [Inserir link do vídeo]

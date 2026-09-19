@@ -3,8 +3,10 @@ package com.example.DevShowcase.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.example.DevShowcase.dto.ProfileRequestDTO;
 import com.example.DevShowcase.model.Profile;
 import com.example.DevShowcase.repository.ProfileRepository;
+import jakarta.validation.Valid;
 
 @RestController 
 @RequestMapping("/api/profiles")
@@ -25,7 +27,12 @@ public class ProfileController {
 	}
 	
 	@PostMapping
-	public Profile createProfile(@RequestBody Profile profile) {
+	public Profile createProfile(@Valid @RequestBody ProfileRequestDTO requestDTO) {
+		Profile profile = new Profile();
+		profile.setName(requestDTO.getName());
+		profile.setBio(requestDTO.getBio());
+		profile.setGithubUrl(requestDTO.getGithubUrl());
+		
 		return profileRepository.save(profile);
 	}
 

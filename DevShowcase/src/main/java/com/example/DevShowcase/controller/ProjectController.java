@@ -3,10 +3,12 @@ package com.example.DevShowcase.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.example.DevShowcase.dto.ProjectRequestDTO;
 import com.example.DevShowcase.model.Profile;
 import com.example.DevShowcase.model.Project;
 import com.example.DevShowcase.repository.ProfileRepository;
 import com.example.DevShowcase.repository.ProjectRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -34,12 +36,17 @@ public class ProjectController {
         return projectRepository.findByProfileId(profileId);
     }
 
-    @PostMapping("/profile/{profileId}")
-    public Project createProjectForProfile(@PathVariable Long profileId, @RequestBody Project project) {
-        Profile profile = profileRepository.findById(profileId)
-            .orElseThrow(() -> new RuntimeException("Profile not found with id: " + profileId));
+    @PostMapping
+    public Project createProject(@Valid @RequestBody ProjectRequestDTO requestDTO) {
+        Profile profile = profileRepository.findById(requestDTO.getProfileId())
+            .orElseThrow(() -> new RuntimeException("Profile not found with id: " + requestDTO.getProfileId()));
         
+        Project project = new Project();
+        project.setTitle(requestDTO.getTitle());
+        project.setDescription(requestDTO.getDescription());
+        project.setProjectUrl(requestDTO.getProjectUrl());
         project.setProfile(profile);
+        
         return projectRepository.save(project);
     }
 

@@ -1,26 +1,27 @@
 package com.example.DevShowcase.controller;
 
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.example.DevShowcase.model.Profile;
 import com.example.DevShowcase.repository.ProfileRepository;
 
 @RestController 
-@RequestMapping("/profiles")
+@RequestMapping("/api/profiles")
 public class ProfileController {
 	
+	@Autowired
 	private ProfileRepository profileRepository;
-
-	ProfileController(ProfileRepository profileRepository) {
-		this.profileRepository = profileRepository;
-	}
 	
 	@GetMapping
 	public List<Profile> getAllProfiles() {
 		return profileRepository.findAll();
+	}
+	
+	@GetMapping("/{id}")
+	public Profile getProfileById(@PathVariable Long id) {
+		return profileRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Profile not found with id: " + id));
 	}
 	
 	@PostMapping
@@ -28,11 +29,23 @@ public class ProfileController {
 		return profileRepository.save(profile);
 	}
 
-	public ProfileRepository getProfileRepository() {
-		return profileRepository;
+	@PutMapping("/{id}")
+	public Profile updateProfile(@PathVariable Long id, @RequestBody Profile profileDetails) {
+		Profile profile = profileRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Profile not found with id: " + id));
+		
+		profile.setName(profileDetails.getName());
+		profile.setBio(profileDetails.getBio());
+		profile.setGithubUrl(profileDetails.getGithubUrl());
+		
+		return profileRepository.save(profile);
 	}
 
-	public void setProfileRepository(ProfileRepository profileRepository) {
-		this.profileRepository = profileRepository;
+	@DeleteMapping("/{id}")
+	public void deleteProfile(@PathVariable Long id) {
+		Profile profile = profileRepository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Profile not found with id: " + id));
+		
+		profileRepository.delete(profile);
 	}
 }

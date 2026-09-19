@@ -1,0 +1,65 @@
+package com.example.DevShowcase.controller;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.example.DevShowcase.model.Profile;
+import com.example.DevShowcase.model.Project;
+import com.example.DevShowcase.repository.ProfileRepository;
+import com.example.DevShowcase.repository.ProjectRepository;
+
+@RestController
+@RequestMapping("/api/projects")
+public class ProjectController {
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
+
+    @GetMapping
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Project getProjectById(@PathVariable Long id) {
+        return projectRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
+    }
+
+    @GetMapping("/profile/{profileId}")
+    public List<Project> getProjectsByProfileId(@PathVariable Long profileId) {
+        return projectRepository.findByProfileId(profileId);
+    }
+
+    @PostMapping("/profile/{profileId}")
+    public Project createProjectForProfile(@PathVariable Long profileId, @RequestBody Project project) {
+        Profile profile = profileRepository.findById(profileId)
+            .orElseThrow(() -> new RuntimeException("Profile not found with id: " + profileId));
+        
+        project.setProfile(profile);
+        return projectRepository.save(project);
+    }
+
+    @PutMapping("/{id}")
+    public Project updateProject(@PathVariable Long id, @RequestBody Project projectDetails) {
+        Project project = projectRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
+        
+        project.setTitle(projectDetails.getTitle());
+        project.setDescription(projectDetails.getDescription());
+        project.setProjectUrl(projectDetails.getProjectUrl());
+        
+        return projectRepository.save(project);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProject(@PathVariable Long id) {
+        Project project = projectRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
+        
+        projectRepository.delete(project);
+    }
+}

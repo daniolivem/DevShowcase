@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import com.example.DevShowcase.dto.ProjectRequestDTO;
 import com.example.DevShowcase.model.Profile;
 import com.example.DevShowcase.model.Project;
+import com.example.DevShowcase.model.Technology;
 import com.example.DevShowcase.repository.ProfileRepository;
 import com.example.DevShowcase.repository.ProjectRepository;
+import com.example.DevShowcase.repository.TechnologyRepository;
 import jakarta.validation.Valid;
 
 @RestController
@@ -19,6 +21,9 @@ public class ProjectController {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private TechnologyRepository technologyRepository;
 
     @GetMapping
     public List<Project> getAllProjects() {
@@ -46,6 +51,12 @@ public class ProjectController {
         project.setDescription(requestDTO.getDescription());
         project.setProjectUrl(requestDTO.getProjectUrl());
         project.setProfile(profile);
+        
+        // Associa as tecnologias se forem enviadas no DTO
+        if (requestDTO.getTechnologyIds() != null && !requestDTO.getTechnologyIds().isEmpty()) {
+            List<Technology> technologies = technologyRepository.findAllById(requestDTO.getTechnologyIds());
+            project.setTechnologies(technologies);
+        }
         
         return projectRepository.save(project);
     }

@@ -1,5 +1,6 @@
 package com.example.DevShowcase.dto;
 
+import java.util.List;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
@@ -18,6 +19,8 @@ public class ProjectRequestDTO {
     @NotNull(message = "O ID do perfil é obrigatório")
     private Long profileId;
 
+    private List<Long> technologyIds;
+
     // Getters e Setters
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -30,4 +33,7 @@ public class ProjectRequestDTO {
 
     public Long getProfileId() { return profileId; }
     public void setProfileId(Long profileId) { this.profileId = profileId; }
+
+    public List<Long> getTechnologyIds() { return technologyIds; }
+    public void setTechnologyIds(List<Long> technologyIds) { this.technologyIds = technologyIds; }
 }

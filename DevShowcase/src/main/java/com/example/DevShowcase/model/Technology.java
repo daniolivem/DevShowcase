@@ -14,14 +14,15 @@ public class Technology {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
 
     @ManyToMany(mappedBy = "technologies")
     @JsonIgnore
     private List<Project> projects;
 
-    public Technology() {}
+    public Technology() {
+    }
 
     public Technology(String name) {
         this.name = name;

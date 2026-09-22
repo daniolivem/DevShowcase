@@ -16,7 +16,8 @@ public class Profile {
     private String githubUrl;
 
     // Construtores
-    public Profile() {}
+    public Profile() {
+    }
 
     public Profile(String name, String bio, String githubUrl) {
         this.name = name;

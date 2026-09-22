@@ -17,10 +17,13 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String title;
     private String description;
     private String projectUrl;
+
+    private Double averageRating = 0.0;
+    private Integer upvotes = 0;
 
     @ManyToOne
     @JoinColumn(name = "profile_id")
@@ -28,26 +31,30 @@ public class Project {
 
     @ManyToMany
     @JoinTable(
-        name = "project_technology",
-        joinColumns = @JoinColumn(name = "project_id"),
-        inverseJoinColumns = @JoinColumn(name = "technology_id")
+            name = "project_technology",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "technology_id")
     )
     private List<Technology> technologies;
 
     @OneToMany(mappedBy = "project")
     private List<Feedback> feedbacks;
 
-    // Construtores
-    public Project() {}
+    public Project() {
+    }
 
-    public Project(String title, String description, String projectUrl, Profile profile) {
+    public Project(
+            String title,
+            String description,
+            String projectUrl,
+            Profile profile) {
+
         this.title = title;
         this.description = description;
         this.projectUrl = projectUrl;
         this.profile = profile;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -78,6 +85,22 @@ public class Project {
 
     public void setProjectUrl(String projectUrl) {
         this.projectUrl = projectUrl;
+    }
+
+    public Double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public Integer getUpvotes() {
+        return upvotes;
+    }
+
+    public void setUpvotes(Integer upvotes) {
+        this.upvotes = upvotes;
     }
 
     public Profile getProfile() {

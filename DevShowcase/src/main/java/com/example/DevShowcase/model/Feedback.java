@@ -13,17 +13,18 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String comment;
-    private int rating;
+    private Integer rating;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
-    public Feedback() {}
+    public Feedback() {
+    }
 
-    public Feedback(String comment, int rating, Project project) {
+    public Feedback(String comment, Integer rating, Project project) {
         this.comment = comment;
         this.rating = rating;
         this.project = project;
@@ -31,10 +32,6 @@ public class Feedback {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getComment() {
@@ -45,11 +42,11 @@ public class Feedback {
         this.comment = comment;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

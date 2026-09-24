@@ -67,4 +67,18 @@ public class FeedbackService {
                 feedback.getProject().getId()
         );
     }
+    public void excluir(Long id) {
+        // 1. Verifica se o feedback existe (ou obtém-o para saber a qual projeto pertencia)
+        Feedback feedback = feedbackRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Feedback não encontrado com id: " + id));
+                
+        // 2. Guarda a referência do projeto associado (se precisares de recalcular a média)
+        Project project = feedback.getProject();
+
+        // 3. Apaga o feedback
+        feedbackRepository.delete(feedback);
+
+        // 4. (Opcional, mas recomendado) Atualiza a nota média do projeto se houver lógica para isso
+        // atualizarMediaProjeto(project);
+    }
 }

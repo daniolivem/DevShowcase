@@ -276,4 +276,17 @@ public class ProjectController {
                 projectService.incrementarUpvote(id)
         );
     }
+    @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Excluir projeto",
+            description = "Remove um projeto cadastrado pelo ID correspondente"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Projeto excluído com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Projeto não encontrado", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        projectService.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }

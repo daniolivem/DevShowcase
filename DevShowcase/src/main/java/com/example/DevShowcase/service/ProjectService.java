@@ -147,4 +147,10 @@ public class ProjectService {
                 project.getUpvotes()
         );
     }
+    public void excluir(Long id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Projeto não encontrado com id: " + id));
+        
+        projectRepository.delete(project);
+    }
 }

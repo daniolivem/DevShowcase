@@ -1,6 +1,8 @@
 package com.example.DevShowcase.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,8 +39,8 @@ public class Project {
     )
     private List<Technology> technologies;
 
-    @OneToMany(mappedBy = "project")
-    private List<Feedback> feedbacks;
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     public Project() {
     }

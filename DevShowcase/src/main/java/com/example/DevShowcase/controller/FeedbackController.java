@@ -100,4 +100,17 @@ public class FeedbackController {
                 .status(HttpStatus.CREATED)
                 .body(feedback);
     }
+    @DeleteMapping("/feedbacks/{id}")
+    @Operation(
+            summary = "Excluir feedback",
+            description = "Remove um feedback cadastrado pelo ID correspondente"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Feedback excluído com sucesso"),
+        @ApiResponse(responseCode = "404", description = "Feedback não encontrado", content = @Content(schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        feedbackService.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }
